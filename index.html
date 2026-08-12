@@ -2,630 +2,945 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>AULA REMOTA - PHP FULL STACK - SENAC-DF</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AULA REMOTA — Quiz PHP: Formulários & Condições | SENAC-DF · Turma 2026.07.67</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, sans-serif; }
-  body {
-    min-height:100vh;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    color:#eaeaea;
-    padding:20px;
-    position:relative;
-    overflow-x:hidden;
-  }
-  body::before {
-    content:"<?php echo 'PHP'; ?>  SELECT * FROM alunos;  $variavel = 'valor';  if($x>0){}  for($i=0;$i<10;$i++)  <?php echo 'MySQL'; ?>  CREATE TABLE notas(id INT);";
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    color:rgba(136,146,191,0.08);
-    font-family:'Courier New', monospace;
-    font-size:18px;
-    word-spacing:40px;
-    line-height:60px;
-    pointer-events:none;
-    z-index:0;
-    white-space:pre-wrap;
-  }
-  .container {
-    max-width:900px; margin:0 auto; position:relative; z-index:1;
-    background: rgba(20,25,50,0.85);
-    border:2px solid #8892BF;
-    border-radius:15px;
-    padding:30px;
-    box-shadow: 0 0 40px rgba(136,146,191,0.4);
-    backdrop-filter: blur(10px);
-  }
-  header {
-    text-align:center;
-    border-bottom:3px solid #8892BF;
-    padding-bottom:20px;
-    margin-bottom:25px;
-    background: linear-gradient(90deg, rgba(136,146,191,0.2), rgba(0,113,165,0.2));
-    border-radius:10px;
-    padding:20px;
-  }
-  h1 {
-    color:#FFD700;
-    font-size:1.4em;
-    text-shadow:2px 2px 4px #000;
-    letter-spacing:1px;
-  }
-  h2 {
-    color:#8892BF;
-    font-size:1.1em;
-    margin-top:10px;
-    font-style:italic;
-  }
-  .subtitle {
-    color:#00BFFF;
-    font-size:1em;
-    margin-top:8px;
-  }
-  .php-logo, .mysql-logo {
-    display:inline-block;
-    padding:4px 12px;
-    border-radius:5px;
-    font-weight:bold;
-    margin:0 5px;
-  }
-  .php-logo { background:#8892BF; color:#fff; }
-  .mysql-logo { background:#0075A5; color:#F29111; }
-  .card {
-    background: rgba(30,40,70,0.9);
-    border-left:5px solid #8892BF;
-    padding:20px;
-    border-radius:8px;
-    margin-bottom:20px;
-  }
-  .teoria {
-    background: rgba(0,113,165,0.15);
-    border:1px dashed #00BFFF;
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:20px;
-    line-height:1.6;
-  }
-  .teoria h3 { color:#FFD700; margin-bottom:10px; }
-  .teoria code {
-    background:#1a1a2e;
-    color:#FFD700;
-    padding:2px 6px;
-    border-radius:4px;
-    font-family:'Courier New', monospace;
-  }
-  .pergunta {
-    font-size:1.1em;
-    margin:15px 0;
-    color:#fff;
-    font-weight:bold;
-  }
-  .opcoes { display:flex; flex-direction:column; gap:10px; }
-  .opcao {
-    background: rgba(136,146,191,0.2);
-    border:2px solid #8892BF;
-    padding:12px 15px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:all 0.3s;
-    color:#fff;
-  }
-  .opcao:hover { background: rgba(136,146,191,0.4); transform:translateX(5px); }
-  .opcao.correta { background:rgba(46,204,113,0.4); border-color:#2ecc71; }
-  .opcao.errada { background:rgba(231,76,60,0.4); border-color:#e74c3c; }
-  .feedback {
-    margin-top:15px;
-    padding:15px;
-    border-radius:8px;
-    font-weight:bold;
-    display:none;
-  }
-  .feedback.acerto { background:rgba(46,204,113,0.2); border:2px solid #2ecc71; color:#2ecc71; }
-  .feedback.erro { background:rgba(231,76,60,0.2); border:2px solid #e74c3c; color:#ff6b6b; }
-  .btn {
-    background: linear-gradient(135deg, #8892BF, #0075A5);
-    color:#fff;
-    border:none;
-    padding:12px 30px;
-    border-radius:8px;
-    font-size:1em;
-    cursor:pointer;
-    margin-top:15px;
-    font-weight:bold;
-    transition:all 0.3s;
-  }
-  .btn:hover { transform:scale(1.05); box-shadow:0 0 15px #8892BF; }
-  input[type=text] {
-    width:100%;
-    padding:12px;
-    border-radius:8px;
-    border:2px solid #8892BF;
-    background:rgba(20,25,50,0.9);
-    color:#fff;
-    font-size:1em;
-    margin:10px 0;
-  }
-  .info {
-    background: rgba(255,215,0,0.1);
-    border:1px solid #FFD700;
-    padding:10px;
-    border-radius:8px;
-    margin:10px 0;
-    font-size:0.9em;
-    color:#FFD700;
-  }
-  .progress {
-    background:rgba(255,255,255,0.1);
-    border-radius:10px;
-    height:20px;
-    overflow:hidden;
-    margin-bottom:15px;
-  }
-  .progress-bar {
-    background: linear-gradient(90deg, #8892BF, #FFD700);
-    height:100%;
-    transition:width 0.5s;
-    text-align:center;
-    color:#000;
-    font-weight:bold;
-    line-height:20px;
-  }
-  .resultado {
-    text-align:center;
-    padding:30px;
-  }
-  .nota {
-    font-size:4em;
-    color:#FFD700;
-    text-shadow:3px 3px 6px #000;
-    margin:20px 0;
-  }
-  .stats {
-    display:flex;
-    justify-content:space-around;
-    margin:20px 0;
-    flex-wrap:wrap;
-    gap:15px;
-  }
-  .stat-box {
-    background:rgba(136,146,191,0.2);
-    padding:20px;
-    border-radius:10px;
-    min-width:150px;
-    border:2px solid #8892BF;
-  }
-  .stat-box h3 { color:#00BFFF; font-size:0.9em; }
-  .stat-box p { font-size:2em; font-weight:bold; color:#FFD700; }
-  .hidden { display:none; }
-  footer {
-    text-align:center;
-    margin-top:20px;
-    color:#8892BF;
-    font-size:0.85em;
-  }
+:root{
+  --bg:#0d0f1e; --painel:#151832; --painel2:#12142b;
+  --borda:rgba(139,144,214,.22);
+  --tinta:#e8eaf6; --suave:#9aa0c3;
+  --php:#777BB4; --php-claro:#9CA1DE;
+  --ambar:#FFC857; --verde:#3DDC97; --vermelho:#FF6B7A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Sora',sans-serif;color:var(--tinta);min-height:100vh;
+  background:
+    radial-gradient(900px 520px at 12% -10%, rgba(119,123,180,.20), transparent 60%),
+    radial-gradient(800px 520px at 96% 12%, rgba(61,220,151,.07), transparent 60%),
+    radial-gradient(700px 500px at 82% 92%, rgba(255,200,87,.06), transparent 60%),
+    var(--bg);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(139,144,214,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,144,214,.05) 1px, transparent 1px);
+  background-size:42px 42px;
+}
+::selection{background:rgba(255,200,87,.35)}
+
+/* ---------- glifos flutuantes ---------- */
+.glifo{position:fixed;font-family:'JetBrains Mono',monospace;color:rgba(139,144,214,.14);
+  user-select:none;pointer-events:none;z-index:0;animation:flutuar var(--t,14s) ease-in-out infinite alternate}
+@keyframes flutuar{from{transform:translateY(-12px) rotate(-2deg)}to{transform:translateY(14px) rotate(2deg)}}
+
+/* ---------- letreiro superior ---------- */
+.ticker{position:relative;z-index:2;overflow:hidden;border-bottom:1px solid rgba(139,144,214,.2);background:rgba(13,15,30,.75)}
+.ticker-trilho{display:flex;width:max-content;animation:deslizar 38s linear infinite}
+.ticker:hover .ticker-trilho{animation-play-state:paused}
+.seq{display:flex;align-items:center;gap:30px;padding:9px 15px;font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:.14em;color:#8b92c9;white-space:nowrap}
+.seq i{color:var(--ambar);font-style:normal}
+@keyframes deslizar{to{transform:translateX(-50%)}}
+
+main{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- topo ---------- */
+.masthead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:26px 0 6px}
+.marca{font-family:'Chakra Petch';font-weight:700;letter-spacing:.08em;font-size:.95rem}
+.marca em{font-style:normal;color:var(--suave);font-weight:500;font-size:.75rem;letter-spacing:.14em}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--suave);
+  border:1px solid var(--borda);border-radius:999px;padding:5px 12px;background:rgba(21,24,50,.6)}
+.chip b{color:var(--ambar);font-weight:500}
+.cursor{animation:piscar 1s steps(1) infinite;color:var(--ambar)}
+@keyframes piscar{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* ---------- telas ---------- */
+.tela{display:none}
+.tela.ativa{display:block;animation:entrar .5s cubic-bezier(.22,1,.36,1)}
+@keyframes entrar{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ---------- abertura ---------- */
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:44px;align-items:center;margin-top:38px}
+.eyebrow{font-family:'JetBrains Mono',monospace;color:var(--php-claro);font-size:.85rem;letter-spacing:.1em}
+h1{font-family:'Chakra Petch';font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.9rem,4.4vw,3.2rem);line-height:1.02;letter-spacing:-.5px;margin:12px 0 16px}
+h1 .dest{color:var(--ambar)}
+.selos{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.selo{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ambar);border:1px solid rgba(255,200,87,.45);border-radius:6px;padding:5px 10px;background:rgba(255,200,87,.06)}
+.sub{color:var(--tinta);font-size:1rem;line-height:1.6}
+.sub strong{color:var(--ambar)}
+.desc{color:var(--suave);font-size:.92rem;line-height:1.65;margin-top:10px}
+.passos{display:flex;margin-top:28px;border-top:1px dashed rgba(139,144,214,.35)}
+.passo{flex:1;padding:14px 16px 0}
+.passo + .passo{border-left:1px dashed rgba(139,144,214,.25)}
+.passo b{display:block;font-family:'Chakra Petch';font-size:1.5rem;color:var(--ambar)}
+.passo span{font-size:.78rem;color:var(--suave);line-height:1.45;display:block;margin-top:4px}
+
+/* ---------- janela de código ---------- */
+.janela{background:linear-gradient(180deg,#171a36,#12142b);border:1px solid rgba(139,144,214,.28);
+  border-radius:14px;overflow:hidden;box-shadow:0 26px 60px -22px rgba(0,0,0,.65)}
+.janela-barra{display:flex;align-items:center;gap:8px;padding:11px 14px;background:rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(139,144,214,.18)}
+.ponto{width:11px;height:11px;border-radius:50%}
+.p-v{background:#ff5f56}.p-a{background:#ffbd2e}.p-s{background:#27c93f}
+.janela-tab{margin-left:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--suave);
+  background:rgba(119,123,180,.14);padding:3px 12px;border-radius:999px}
+.janela-corpo{padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:14px;line-height:2.05;color:#cfd3ef}
+.lin-cod{white-space:pre-wrap}
+.t-tag{color:#8b92d9}.t-str{color:#ffd98a}.t-var{color:#7ee2b8}
+.t-kw{color:#9aa4ff;font-weight:600}.t-num{color:#ffb08a}.t-op{color:#e39a63}
+.c-com{color:#626890;font-style:italic}
+
+.inp-nome{font-family:'JetBrains Mono',monospace;font-size:14px;color:#ffd98a;
+  background:rgba(255,200,87,.07);border:1px dashed rgba(255,200,87,.5);border-radius:8px;
+  padding:4px 10px;width:min(230px,62%);outline:none;transition:.2s}
+.inp-nome:focus{border-style:solid;box-shadow:0 0 0 3px rgba(255,200,87,.15)}
+.inp-nome.tremer{animation:tremer .4s;border-color:var(--vermelho)}
+
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:'Chakra Petch';font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;font-size:.82rem;color:#fff;
+  background:linear-gradient(135deg,#6f74b8,#565b9e);border:1px solid rgba(156,161,222,.5);
+  padding:13px 22px;border-radius:10px;cursor:pointer;
+  transition:transform .18s,box-shadow .18s,filter .18s;box-shadow:0 10px 24px -12px rgba(119,123,180,.8)}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 18px 32px -12px rgba(119,123,180,.9)}
+.btn:active{transform:translateY(0)}
+.lin-acao{margin-top:14px}
+
+.registros{margin-top:16px;border:1px dashed rgba(139,144,214,.32);border-radius:10px;padding:12px 16px}
+.registros h3{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.18em;color:var(--suave);margin-bottom:8px}
+.reg-item{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:#b9bede;padding:3px 0;border-bottom:1px dotted rgba(139,144,214,.15)}
+.reg-item:last-child{border-bottom:none}
+.reg-item b{color:var(--ambar);font-weight:500}
+
+/* ---------- quiz ---------- */
+.quiz-topo{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:30px 0 14px}
+.q-contador{font-family:'Chakra Petch';font-weight:700;letter-spacing:.1em;font-size:1rem}
+.q-contador b{color:var(--ambar)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip .ok{color:var(--verde)} .chip .er{color:var(--vermelho)}
+.progresso{height:8px;border-radius:999px;background:rgba(139,144,214,.15);overflow:hidden;margin-bottom:10px}
+.progresso-fill{height:100%;width:0;background:linear-gradient(90deg,var(--php),var(--ambar));
+  transition:width .5s cubic-bezier(.22,1,.36,1)}
+.prog-leg{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;letter-spacing:.14em;color:var(--suave);margin-bottom:24px}
+
+.painel{background:linear-gradient(180deg,#161936,#12142b);border:1px solid var(--borda);
+  border-radius:16px;padding:28px;box-shadow:0 22px 50px -26px rgba(0,0,0,.7)}
+.entrar-anim{animation:entrar .45s cubic-bezier(.22,1,.36,1)}
+.q-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.16em;
+  color:var(--ambar);border:1px solid rgba(255,200,87,.45);border-radius:6px;padding:4px 10px;background:rgba(255,200,87,.06)}
+.q-enun{font-weight:600;font-size:1.18rem;line-height:1.45;margin:16px 0 18px}
+
+.codigo-linhas{padding:6px 0}
+.lc{display:flex}
+.lc-n{width:34px;flex-shrink:0;text-align:right;padding-right:14px;color:#464c78;user-select:none}
+.lc-t{white-space:pre;color:#cfd3ef}
+
+.alts{display:grid;gap:10px;margin-top:22px}
+.alt{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:center;text-align:left;
+  padding:13px 16px;background:#141731;border:1px solid rgba(139,144,214,.2);border-radius:10px;
+  color:var(--tinta);font-family:'Sora';font-size:.94rem;cursor:pointer;
+  transition:transform .18s,border-color .18s,background .18s}
+.alt:hover:not(.apagada){transform:translateX(6px);border-color:var(--php);background:#181c3f}
+.alt .letra{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(139,144,214,.45);
+  border-radius:8px;font-family:'JetBrains Mono';font-weight:700;color:var(--ambar);transition:.18s}
+.alt:hover:not(.apagada) .letra{background:rgba(255,200,87,.12)}
+.alt.apagada{opacity:.45}
+.alt.correta{border-color:var(--verde);background:rgba(61,220,151,.1);opacity:1;animation:pulso .6s}
+.alt.correta .letra{background:var(--verde);color:#08130d;border-color:var(--verde)}
+.alt.errada{border-color:var(--vermelho);background:rgba(255,107,122,.1);opacity:1;animation:tremer .4s}
+.alt.errada .letra{background:var(--vermelho);color:#2a0a0f;border-color:var(--vermelho)}
+.respondido .alt{pointer-events:none}
+@keyframes pulso{0%{box-shadow:0 0 0 0 rgba(61,220,151,.5)}100%{box-shadow:0 0 0 16px rgba(61,220,151,0)}}
+@keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+.feedback{display:none;margin-top:22px;border-radius:12px;padding:16px 18px;border:1px solid;position:relative;overflow:hidden}
+.feedback.mostrar{display:block;animation:entrar .35s}
+.feedback.ok{border-color:rgba(61,220,151,.55);background:rgba(61,220,151,.08)}
+.feedback.erro{border-color:rgba(255,107,122,.55);background:rgba(255,107,122,.08)}
+.fb-titulo{font-family:'Chakra Petch';font-weight:700;letter-spacing:.04em;margin-bottom:6px}
+.feedback.ok .fb-titulo{color:var(--verde)} .feedback.erro .fb-titulo{color:var(--vermelho)}
+.fb-texto{color:#cfd3ef;font-size:.9rem;line-height:1.6}
+.fb-acoes{display:flex;align-items:center;gap:16px;margin-top:16px}
+.auto{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.auto-bar{height:100%;width:100%;background:var(--ambar)}
+@keyframes esvaziar{to{width:0}}
+
+/* ---------- resultado ---------- */
+.res-topo{margin:34px 0 24px}
+.res-nome{font-family:'Chakra Petch';font-weight:700;text-transform:uppercase;
+  font-size:clamp(1.6rem,3.6vw,2.6rem);color:var(--ambar);margin-top:8px;letter-spacing:.02em}
+.res-grid{display:grid;grid-template-columns:auto 1fr;gap:38px;align-items:center}
+.nota-caixa{position:relative;width:190px;height:190px}
+#anelNota{transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1)}
+.nota-centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.nota-centro b{font-family:'Chakra Petch';font-weight:700;font-size:2.9rem;line-height:1}
+.nota-centro span{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--suave);margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#141731;border:1px solid var(--borda);border-radius:12px;padding:14px 16px;transition:transform .18s}
+.stat:hover{transform:translateY(-3px)}
+.stat span{display:block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--suave);margin-bottom:6px}
+.stat b{font-family:'Chakra Petch';font-weight:700;font-size:1.45rem}
+.stat.verde b{color:var(--verde)} .stat.vermelho b{color:var(--vermelho)} .stat.ambar b{color:var(--ambar)}
+.res-msg{margin:26px 0 8px;font-size:1.02rem;color:#cfd3ef;border-left:3px solid var(--ambar);padding-left:14px;line-height:1.6}
+.rev-titulo{margin-top:36px;font-family:'Chakra Petch';font-weight:700;letter-spacing:.08em;font-size:1.05rem}
+.rev{display:grid;gap:10px;margin-top:14px}
+.rev-item{border:1px solid var(--borda);border-left-width:4px;border-radius:10px;padding:12px 16px;
+  background:#13162e;animation:entrar .45s both;animation-delay:var(--d)}
+.rev-item.ok{border-left-color:var(--verde)} .rev-item.er{border-left-color:var(--vermelho)}
+.rev-topo{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.rev-q{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.14em;color:var(--ambar)}
+.rev-st{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em}
+.rev-item.ok .rev-st{color:var(--verde)} .rev-item.er .rev-st{color:var(--vermelho)}
+.rev-enun{font-size:.86rem;color:var(--tinta);margin-top:6px;line-height:1.5}
+.rev-resp{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--suave);margin-top:6px}
+.res-acoes{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:30px 0 10px}
+.nota-salva{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--suave)}
+
+footer{position:relative;z-index:1;text-align:center;font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;letter-spacing:.1em;color:#626890;padding:44px 24px 30px;line-height:1.8}
+
+@media(max-width:940px){
+  .hero{grid-template-columns:1fr;gap:30px}
+  .res-grid{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .res-msg{text-align:left}
+}
+@media(max-width:600px){
+  .passos{flex-direction:column}
+  .passo + .passo{border-left:none;border-top:1px dashed rgba(139,144,214,.25)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .painel{padding:20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>🎓 AULA REMOTA - CURSO TÉCNICO EM DESENVOLVIMENTO DE SISTEMAS - SENAC-DF 🎓</h1>
-    <h2>TURMA 2026.07.67</h2>
-    <div class="subtitle">
-      Instrutor: <strong>Pedro Renato</strong> | Data: <strong>29/07/2026</strong>
-    </div>
-    <div style="margin-top:10px;">
-      <span class="php-logo">PHP</span>
-      <span class="mysql-logo">MySQL</span>
-      <span style="color:#FFD700; font-weight:bold;">FULL STACK</span>
+
+<!-- glifos decorativos -->
+<span class="glifo" style="top:13%;left:4%;font-size:2.1rem;--t:13s">&lt;form&gt;</span>
+<span class="glifo" style="top:72%;left:7%;font-size:1.6rem;--t:17s">$_POST</span>
+<span class="glifo" style="top:24%;left:89%;font-size:1.9rem;--t:15s">if/else</span>
+<span class="glifo" style="top:80%;left:84%;font-size:2.4rem;--t:19s">{ }</span>
+<span class="glifo" style="top:48%;left:94%;font-size:1.4rem;--t:12s">isset()</span>
+<span class="glifo" style="top:62%;left:2%;font-size:1.5rem;--t:16s">$_GET</span>
+<span class="glifo" style="top:8%;left:56%;font-size:1.3rem;--t:14s">method</span>
+<span class="glifo" style="top:90%;left:46%;font-size:1.5rem;--t:18s">elseif</span>
+
+<!-- letreiro -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-trilho">
+    <div class="seq"><span>$_POST</span><i>✦</i><span>$_GET</span><i>✦</i><span>method</span><i>✦</i><span>action</span><i>✦</i><span>name</span><i>✦</i><span>type="submit"</span><i>✦</i><span>isset()</span><i>✦</i><span>empty()</span><i>✦</i><span>htmlspecialchars()</span><i>✦</i><span>if / else</span><i>✦</i><span>elseif</span><i>✦</i><span>required</span><i>✦</i><span>is_numeric()</span><i>✦</i><span>SENAC-DF · 2026.07.67</span><i>✦</i></div>
+    <div class="seq"><span>$_POST</span><i>✦</i><span>$_GET</span><i>✦</i><span>method</span><i>✦</i><span>action</span><i>✦</i><span>name</span><i>✦</i><span>type="submit"</span><i>✦</i><span>isset()</span><i>✦</i><span>empty()</span><i>✦</i><span>htmlspecialchars()</span><i>✦</i><span>if / else</span><i>✦</i><span>elseif</span><i>✦</i><span>required</span><i>✦</i><span>is_numeric()</span><i>✦</i><span>SENAC-DF · 2026.07.67</span><i>✦</i></div>
+  </div>
+</div>
+
+<main>
+  <header class="masthead">
+    <div class="marca">&lt;/&gt; QUIZ PHP <em>· FORMULÁRIOS &amp; CONDIÇÕES</em></div>
+    <div class="chips">
+      <span class="chip">DATA <b>12/08/2026</b></span>
+      <span class="chip"><span class="rel">--:--:--</span> <span class="cursor">▮</span></span>
     </div>
   </header>
 
-  <!-- TELA INICIAL -->
-  <div id="telaInicial" class="card">
-    <h3 style="color:#FFD700; margin-bottom:15px;">📝 QUESTIONÁRIO - PHP & BANCO DE DADOS</h3>
-    <p style="margin-bottom:15px; line-height:1.6;">
-      Bem-vindo(a) ao questionário da aula remota! Este formulário contém <strong>25 questões</strong> 
-      sobre XAMPP, Servidor Web, PHP, Variáveis, Condicionais, Laços de Repetição e integração PHP + HTML.
-    </p>
-    <p style="margin-bottom:15px;">
-      ⚠️ Antes de cada questão haverá um <strong>resumo teórico</strong>. Leia com atenção antes de responder!
-    </p>
-    <div class="info">
-      📅 Data registrada: <strong>29/07/2026</strong> | 🕐 Hora: registrada automaticamente no início
+  <!-- ============ TELA 1 · IDENTIFICAÇÃO ============ -->
+  <section id="tela-inicio" class="tela ativa">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">// AULA REMOTA</p>
+        <h1>Curso Técnico em<br><span class="dest">Desenvolvimento de Sistemas</span></h1>
+        <div class="selos">
+          <span class="selo">SENAC-DF</span>
+          <span class="selo">Turma 2026.07.67</span>
+        </div>
+        <p class="sub">Instrutor: <strong>Pedro Renato</strong> &nbsp;·&nbsp; Data: <strong>12/08/2026</strong></p>
+        <p class="desc">Questionário com <strong style="color:var(--tinta)">20 questões</strong> sobre <strong style="color:var(--tinta)">formulários</strong>, <strong style="color:var(--tinta)">processamento de dados em PHP</strong> ($_GET / $_POST) e <strong style="color:var(--tinta)">condições IF / ELSE / ELSEIF</strong>. Ao errar, a resposta certa será exibida para você aprender com o erro.</p>
+        <div class="passos">
+          <div class="passo"><b>01</b><span>Analise o microprograma exibido</span></div>
+          <div class="passo"><b>02</b><span>Identifique o erro e marque a alternativa</span></div>
+          <div class="passo"><b>03</b><span>Errou? A resposta correta será mostrada</span></div>
+        </div>
+      </div>
+
+      <div>
+        <form id="formInicio" autocomplete="off">
+          <div class="janela">
+            <div class="janela-barra">
+              <span class="ponto p-v"></span><span class="ponto p-a"></span><span class="ponto p-s"></span>
+              <span class="janela-tab">identificacao.php</span>
+            </div>
+            <div class="janela-corpo">
+              <div class="lin-cod"><span class="c-com">// identificação do(a) aluno(a)</span></div>
+              <div class="lin-cod"><span class="t-tag">&lt;?php</span></div>
+              <div class="lin-cod">  <span class="t-var">$aluno</span> <span class="t-op">=</span> <span class="t-str">“<input id="inpNome" class="inp-nome" maxlength="60" placeholder="digite seu nome”">”</span>;</div>
+              <div class="lin-cod">  <span class="t-var">$data</span> <span class="t-op">=</span> <span class="t-str">"12/08/2026"</span>;</div>
+              <div class="lin-cod">  <span class="t-var">$hora</span> <span class="t-op">=</span> <span class="t-str">"<span class="rel">--:--:--</span>"</span>; <span class="c-com">// horário atual</span></div>
+              <div class="lin-cod"><span class="t-tag">?&gt;</span></div>
+              <div class="lin-cod lin-acao"><button type="submit" class="btn">▶ iniciar_questionario();</button></div>
+            </div>
+          </div>
+        </form>
+        <div class="registros" id="registros" hidden>
+          <h3>// ÚLTIMOS REGISTROS NESTE NAVEGADOR</h3>
+          <div id="listaRegistros"></div>
+        </div>
+      </div>
     </div>
-    <label style="display:block; margin-top:15px; color:#00BFFF;">Digite seu nome completo:</label>
-    <input type="text" id="nomeAluno" placeholder="Ex: João da Silva">
-    <button class="btn" onclick="iniciar()">🚀 INICIAR QUESTIONÁRIO</button>
-  </div>
+  </section>
 
-  <!-- TELA DE QUESTÕES -->
-  <div id="telaQuestao" class="hidden">
-    <div class="info" id="infoAluno"></div>
-    <div class="progress"><div class="progress-bar" id="progressBar">0/25</div></div>
-    <div id="conteudoQuestao"></div>
-  </div>
+  <!-- ============ TELA 2 · QUIZ ============ -->
+  <section id="tela-quiz" class="tela">
+    <div class="quiz-topo">
+      <div class="q-contador" id="contador">QUESTÃO <b>01</b> / 20</div>
+      <div class="chips">
+        <span class="chip">✔ ACERTOS <b class="ok" id="chipAcertos">0</b></span>
+        <span class="chip">✘ ERROS <b class="er" id="chipErros">0</b></span>
+        <span class="chip"><span class="rel">--:--:--</span></span>
+      </div>
+    </div>
+    <div class="progresso"><div class="progresso-fill" id="progFill"></div></div>
+    <div class="prog-leg"><span>AULA REMOTA · FORMULÁRIOS &amp; CONDIÇÕES</span><span id="progPct">0%</span></div>
 
-  <!-- TELA DE RESULTADO -->
-  <div id="telaResultado" class="hidden"></div>
+    <div class="painel entrar-anim" id="painelQuestao">
+      <span class="q-badge" id="qBadge">Q01</span>
+      <h2 class="q-enun" id="qEnun"></h2>
+      <div class="janela">
+        <div class="janela-barra">
+          <span class="ponto p-v"></span><span class="ponto p-a"></span><span class="ponto p-s"></span>
+          <span class="janela-tab" id="qArquivo">codigo.php</span>
+        </div>
+        <div class="janela-corpo"><div class="codigo-linhas" id="qCodigo"></div></div>
+      </div>
+      <div class="alts" id="qAlts"></div>
+      <div class="feedback" id="feedback">
+        <p class="fb-titulo" id="fbTitulo"></p>
+        <p class="fb-texto" id="fbTexto"></p>
+        <div class="fb-acoes">
+          <button class="btn" id="btnProx" type="button">Próxima questão →</button>
+          <div class="auto"><div class="auto-bar" id="autoBar"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    © 2026 - SENAC-DF | Desenvolvido para fins educacionais | PHP Full Stack
-  </footer>
-</div>
+  <!-- ============ TELA 3 · RESULTADO ============ -->
+  <section id="tela-resultado" class="tela">
+    <div class="res-topo">
+      <p class="eyebrow">// RESULTADO FINAL</p>
+      <h2 class="res-nome" id="resNome"></h2>
+    </div>
+    <div class="painel">
+      <div class="res-grid">
+        <div class="nota-caixa">
+          <svg width="190" height="190" viewBox="0 0 190 190">
+            <defs>
+              <linearGradient id="gradNota" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#777BB4"/><stop offset="100%" stop-color="#FFC857"/>
+              </linearGradient>
+            </defs>
+            <circle cx="95" cy="95" r="78" fill="none" stroke="#232748" stroke-width="12"/>
+            <circle id="anelNota" cx="95" cy="95" r="78" fill="none" stroke="url(#gradNota)" stroke-width="12"
+              stroke-linecap="round" transform="rotate(-90 95 95)"/>
+          </svg>
+          <div class="nota-centro"><b id="notaValor">0,0</b><span>NOTA / 10</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat verde"><span>TOTAL DE ACERTOS</span><b id="resAcertos">0</b></div>
+          <div class="stat vermelho"><span>TOTAL DE ERROS</span><b id="resErros">0</b></div>
+          <div class="stat ambar"><span>APROVEITAMENTO</span><b id="resPct">0%</b></div>
+          <div class="stat"><span>HORA DE INÍCIO</span><b id="resHoraIni">--</b></div>
+          <div class="stat"><span>HORA DE TÉRMINO</span><b id="resHoraFim">--</b></div>
+          <div class="stat"><span>DATA DA AULA</span><b>12/08/2026</b></div>
+        </div>
+      </div>
+      <p class="res-msg" id="resMsg"></p>
+
+      <h3 class="rev-titulo">// GABARITO COMENTADO — REVISA AÍ 👇</h3>
+      <div class="rev" id="listaRevisao"></div>
+
+      <div class="res-acoes">
+        <button class="btn" onclick="location.reload()" type="button">↻ Refazer questionário</button>
+        <span class="nota-salva">✔ Registro salvo neste navegador</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  SENAC-DF · CURSO TÉCNICO EM DESENVOLVIMENTO DE SISTEMAS · TURMA 2026.07.67<br>
+  AULA REMOTA DE 12/08/2026 · INSTRUTOR PEDRO RENATO
+</footer>
 
 <script>
-const questoes = [
-  {
-    teoria: `<h3>📘 O que é o XAMPP?</h3>
-      <p>O <strong>XAMPP</strong> é um pacote de software livre que contém o servidor web <strong>Apache</strong>, 
-      o banco de dados <strong>MySQL/MariaDB</strong>, e os interpretadores <strong>PHP</strong> e <strong>Perl</strong>. 
-      A letra "X" representa os sistemas operacionais (cross-platform: Windows, Linux, Mac). É amplamente usado 
-      para desenvolvimento local de aplicações web.</p>`,
-    pergunta: "Qual é a principal função do XAMPP?",
-    opcoes: [
-      "Editar imagens e vídeos",
-      "Criar um ambiente local de desenvolvimento web com Apache, MySQL e PHP",
-      "Fazer backup de arquivos do Windows",
-      "Compilar programas em C++"
-    ],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 O que é um Servidor Web?</h3>
-      <p>Um <strong>servidor web</strong> é um software (ou hardware dedicado) responsável por receber requisições 
-      de clientes (navegadores) e entregar páginas web como resposta. Exemplos famosos: <strong>Apache</strong>, 
-      <strong>Nginx</strong> e <strong>IIS</strong>. Ele utiliza o protocolo <strong>HTTP/HTTPS</strong> para comunicação.</p>`,
-    pergunta: "Qual das alternativas é um exemplo de servidor web?",
-    opcoes: ["Microsoft Word", "Apache", "Photoshop", "WinRAR"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 O que é um Servidor Local?</h3>
-      <p>Um <strong>servidor local</strong> é um servidor executado na própria máquina do desenvolvedor, 
-      sem necessidade de internet ou hospedagem externa. Ele permite testar sites e aplicações antes 
-      de publicá-los em um servidor real na nuvem. O XAMPP é uma ferramenta que cria esse servidor local.</p>`,
-    pergunta: "Qual a vantagem de usar um servidor local durante o desenvolvimento?",
-    opcoes: [
-      "Deixa o site mais lento",
-      "Permite testar a aplicação sem precisar de internet ou hospedagem paga",
-      "Impede o uso do PHP",
-      "Bloqueia o acesso ao banco de dados"
-    ],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 O que é o localhost?</h3>
-      <p><strong>localhost</strong> é o nome usado para se referir ao próprio computador através da rede. 
-      Ele corresponde ao endereço IP <code>127.0.0.1</code>. Quando você digita <code>http://localhost</code> 
-      no navegador, está acessando o servidor web instalado na sua própria máquina.</p>`,
-    pergunta: "Qual endereço IP corresponde ao localhost?",
-    opcoes: ["192.168.0.1", "127.0.0.1", "10.0.0.1", "255.255.255.0"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Como acessar arquivos no XAMPP?</h3>
-      <p>Os arquivos PHP do XAMPP devem ser salvos na pasta <code>htdocs</code> (dentro da instalação do XAMPP). 
-      Depois, basta iniciar o Apache e acessar pelo navegador usando <code>http://localhost/nome_do_arquivo.php</code>.</p>`,
-    pergunta: "Em qual pasta do XAMPP devemos salvar os arquivos PHP?",
-    opcoes: ["www", "htdocs", "public_html", "webroot"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 História do PHP - Parte 1</h3>
-      <p>O <strong>PHP</strong> (PHP: Hypertext Preprocessor) foi criado em <strong>1994</strong> por 
-      <strong>Rasmus Lerdorf</strong>. Inicialmente chamava-se "Personal Home Page Tools" e era um conjunto 
-      de scripts em C para rastrear visitas ao seu currículo online.</p>`,
-    pergunta: "Quem criou o PHP?",
-    opcoes: ["Tim Berners-Lee", "Rasmus Lerdorf", "James Gosling", "Brendan Eich"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 História do PHP - Parte 2</h3>
-      <p>O PHP evoluiu muito ao longo dos anos. Em <strong>1997</strong> surgiu o PHP 3, com suporte a bancos 
-      de dados. O PHP 4 (2000) introduziu o motor Zend. O PHP 5 (2004) trouxe a programação orientada a objetos. 
-      O PHP 7 (2015) trouxe grande melhoria de performance, e o PHP 8 (2020) adicionou JIT e tipagem mais forte.</p>`,
-    pergunta: "Em que ano o PHP foi criado?",
-    opcoes: ["1989", "1994", "2000", "2010"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 História do PHP - Parte 3</h3>
-      <p>O nome PHP é um <strong>acrônimo recursivo</strong>, que significa <strong>"PHP: Hypertext Preprocessor"</strong>. 
-      Isso significa que a sigla PHP aparece dentro da própria expansão do nome. Hoje é uma das linguagens mais 
-      usadas na web, alimentando sites como Facebook (inicialmente), WordPress e Wikipedia.</p>`,
-    pergunta: "O que significa a sigla PHP atualmente?",
-    opcoes: [
-      "Personal Home Page",
-      "PHP: Hypertext Preprocessor",
-      "Programação Hyper Web",
-      "Private Hosting Platform"
-    ],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Introdução ao PHP</h3>
-      <p>O PHP é uma linguagem de script <strong>interpretada</strong>, executada no <strong>lado do servidor</strong>. 
-      Todo código PHP deve estar entre as tags <code>&lt;?php</code> e <code>?&gt;</code>. 
-      Cada instrução deve terminar com <strong>ponto e vírgula (;)</strong>.</p>`,
-    pergunta: "Qual tag é usada para iniciar um bloco de código PHP?",
-    opcoes: ["&lt;php&gt;", "&lt;?php", "&lt;script php&gt;", "&lt;#php"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Saída de dados em PHP</h3>
-      <p>Para exibir informações na tela usamos os comandos <code>echo</code> ou <code>print</code>. 
-      Exemplo: <code>echo "Olá mundo!";</code> — isso imprime o texto na página HTML gerada.</p>`,
-    pergunta: "Qual comando exibe texto na tela em PHP?",
-    opcoes: ["write", "echo", "display", "show"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Comentários em PHP</h3>
-      <p>Comentários são trechos ignorados pelo interpretador, úteis para documentar o código. 
-      Em PHP usamos <code>//</code> para uma linha ou <code>/* ... */</code> para múltiplas linhas.</p>`,
-    pergunta: "Qual é a sintaxe correta para um comentário de uma linha em PHP?",
-    opcoes: ["&lt;!-- comentário --&gt;", "# comentário ou // comentário", "' comentário", "** comentário **"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 O que é uma Variável?</h3>
-      <p>Uma <strong>variável</strong> é um espaço na memória do computador que armazena um valor que pode 
-      mudar durante a execução do programa. Em PHP, toda variável começa com o símbolo <strong>$</strong> (cifrão). 
-      Exemplo: <code>$nome = "Maria";</code></p>`,
-    pergunta: "Qual símbolo identifica uma variável em PHP?",
-    opcoes: ["@", "#", "$", "&"],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Regras para nomes de variáveis</h3>
-      <p>Em PHP, variáveis: devem começar com <code>$</code> seguido de letra ou underscore (_); 
-      não podem começar com número; são <strong>case-sensitive</strong> (<code>$Nome</code> é diferente de <code>$nome</code>); 
-      não podem conter espaços.</p>`,
-    pergunta: "Qual dos seguintes nomes de variável é VÁLIDO em PHP?",
-    opcoes: ["$1idade", "$minha idade", "$_valor_total", "$nome-completo"],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Tipos de dados em PHP</h3>
-      <p>PHP é uma linguagem de <strong>tipagem dinâmica</strong>, ou seja, não precisamos declarar o tipo da variável. 
-      Os principais tipos são: <strong>string</strong> (texto), <strong>int</strong> (inteiro), <strong>float</strong> (decimal), 
-      <strong>bool</strong> (true/false), <strong>array</strong> e <strong>object</strong>.</p>`,
-    pergunta: "Qual tipo de dado a variável <code>$preco = 19.90;</code> armazena?",
-    opcoes: ["string", "int", "float", "bool"],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Concatenação de strings</h3>
-      <p>Em PHP, usamos o operador <strong>ponto (.)</strong> para juntar (concatenar) textos e variáveis. 
-      Exemplo: <code>echo "Olá, " . $nome;</code></p>`,
-    pergunta: "Qual operador é usado para concatenar strings em PHP?",
-    opcoes: ["+", "&", ".", ","],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Operadores de comparação</h3>
-      <p>Para comparar valores usamos: <code>==</code> (igual), <code>!=</code> (diferente), 
-      <code>&gt;</code> (maior), <code>&lt;</code> (menor), <code>&gt;=</code> (maior ou igual), 
-      <code>&lt;=</code> (menor ou igual), <code>===</code> (idêntico - valor e tipo).</p>`,
-    pergunta: "Qual operador verifica se dois valores são IGUAIS em PHP?",
-    opcoes: ["=", "==", "===", "=&gt;"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Estrutura Condicional IF</h3>
-      <p>O comando <code>if</code> executa um bloco de código SOMENTE se a condição for verdadeira. 
-      Sintaxe: <code>if (condição) { ... }</code>. Podemos usar <code>else</code> para o caso falso 
-      e <code>elseif</code> para múltiplas condições.</p>`,
-    pergunta: "Qual a estrutura correta de um IF em PHP?",
-    opcoes: [
-      "if x &gt; 5 then { }",
-      "if (x &gt; 5) { }",
-      "when (x &gt; 5) do { }",
-      "check x &gt; 5 { }"
-    ],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 IF / ELSE / ELSEIF</h3>
-      <p>Exemplo completo:<br>
-      <code>if ($nota &gt;= 7) { echo "Aprovado"; }<br>
-      elseif ($nota &gt;= 5) { echo "Recuperação"; }<br>
-      else { echo "Reprovado"; }</code></p>`,
-    pergunta: "Se $nota = 6, qual mensagem será exibida no código acima?",
-    opcoes: ["Aprovado", "Recuperação", "Reprovado", "Nenhuma"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Operadores lógicos</h3>
-      <p>Para combinar condições usamos: <code>&amp;&amp;</code> (E), <code>||</code> (OU), <code>!</code> (NÃO). 
-      Exemplo: <code>if ($idade &gt;= 18 &amp;&amp; $tem_cnh == true)</code> — ambas condições devem ser verdadeiras.</p>`,
-    pergunta: "Qual operador representa o 'E' lógico em PHP?",
-    opcoes: ["||", "&amp;&amp;", "!", "??"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Estrutura SWITCH</h3>
-      <p>O <code>switch</code> é usado para comparar uma variável com vários valores possíveis. 
-      Sintaxe: <code>switch($x) { case 1: ...; break; case 2: ...; break; default: ...; }</code></p>`,
-    pergunta: "Qual palavra-chave encerra cada caso no switch para evitar 'fall-through'?",
-    opcoes: ["stop", "end", "break", "exit"],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Laço de Repetição FOR</h3>
-      <p>O <code>for</code> repete um bloco um número definido de vezes. 
-      Sintaxe: <code>for (inicialização; condição; incremento) { ... }</code>. 
-      Exemplo: <code>for ($i=1; $i&lt;=5; $i++) { echo $i; }</code> — imprime 12345.</p>`,
-    pergunta: "Quantas vezes o laço <code>for ($i=0; $i&lt;3; $i++)</code> será executado?",
-    opcoes: ["2 vezes", "3 vezes", "4 vezes", "Infinitas"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Laço WHILE</h3>
-      <p>O <code>while</code> repete enquanto a condição for verdadeira. 
-      Sintaxe: <code>while (condição) { ... }</code>. 
-      Cuidado: se a condição nunca ficar falsa, o loop será infinito!</p>`,
-    pergunta: "O que acontece se a condição do while NUNCA se tornar falsa?",
-    opcoes: [
-      "O programa para automaticamente",
-      "O loop executa uma única vez",
-      "O loop se torna infinito e trava o programa",
-      "O PHP ignora o comando"
-    ],
-    correta: 2
-  },
-  {
-    teoria: `<h3>📘 Laço FOREACH</h3>
-      <p>O <code>foreach</code> é usado especificamente para percorrer <strong>arrays</strong>. 
-      Sintaxe: <code>foreach ($array as $item) { ... }</code> ou 
-      <code>foreach ($array as $chave =&gt; $valor) { ... }</code>.</p>`,
-    pergunta: "Para qual tipo de estrutura o foreach é mais indicado?",
-    opcoes: ["Números inteiros", "Arrays", "Strings apenas", "Banco de dados"],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 PHP + HTML Integrados</h3>
-      <p>PHP pode gerar HTML dinamicamente. Basta misturar as tags: 
-      <code>&lt;h1&gt;&lt;?php echo "Olá, " . $nome; ?&gt;&lt;/h1&gt;</code>. 
-      O PHP é processado no servidor e o HTML resultante é enviado ao navegador.</p>`,
-    pergunta: "Onde o código PHP é processado?",
-    opcoes: [
-      "No navegador do usuário (client-side)",
-      "No servidor (server-side), antes de enviar ao navegador",
-      "No banco de dados MySQL",
-      "No XAMPP apenas quando clicamos em 'Executar'"
-    ],
-    correta: 1
-  },
-  {
-    teoria: `<h3>📘 Formulários HTML com PHP</h3>
-      <p>Podemos receber dados de formulários HTML usando as superglobais <code>$_GET</code> e <code>$_POST</code>. 
-      Exemplo: <code>$nome = $_POST['nome'];</code> captura o valor de um campo chamado "nome" enviado via POST.</p>`,
-    pergunta: "Qual superglobal captura dados enviados por um formulário com method='POST'?",
-    opcoes: ["$_FORM", "$_POST", "$_GET", "$_REQUEST"],
-    correta: 1
-  }
+/* ==================== DADOS ==================== */
+const DATA_AULA = '12/08/2026';
+const CHAVE = 'quizphp_formularios_senac_2026';
+const LETRAS = ['A','B','C','D'];
+
+const QUESTOES = [
+{
+  arquivo:'formulario.html',
+  enun:'Queremos que os dados do formulário sejam enviados de forma oculta, sem aparecer na URL. O que deve ser alterado?',
+  codigo:`<form action="processa.php" method="get">
+    <input type="text" name="usuario">
+    <button type="submit">Entrar</button>
+</form>`,
+  opcoes:[
+    'Nada, os dados já são enviados de forma oculta.',
+    'Trocar action="processa.php" por action="hidden".',
+    'Trocar method="get" por method="post".',
+    'Adicionar a palavra password ao nome do formulário.'
+  ],
+  correta:2,
+  dica:'O method="post" envia os dados no corpo da requisição, sem expô-los na URL como acontece no get.'
+},
+{
+  arquivo:'receber.php',
+  enun:'O formulário foi enviado com method="post". Qual é o erro no processamento?',
+  codigo:`<?php
+$nome = $_GET["nome"];
+echo "Bem-vindo, " . $nome;
+?>`,
+  opcoes:[
+    'Os dados devem ser recebidos com $_POST["nome"], pois o formulário usa method post.',
+    'O echo não consegue exibir variáveis vindas de formulários.',
+    'Deveria usar $GET->nome().',
+    'Faltou o $ antes de ["nome"].'
+  ],
+  correta:0,
+  dica:'Os dados devem ser recebidos pela mesma superglobal do método: method="post" → $_POST["nome"].'
+},
+{
+  arquivo:'contato.html',
+  enun:'Por que o PHP não vai receber o que for digitado neste campo?',
+  codigo:`<form action="salvar.php" method="post">
+    <input type="text" placeholder="Seu e-mail">
+    <button type="submit">Enviar</button>
+</form>`,
+  opcoes:[
+    'Porque o campo é type="text" e deveria ser type="php".',
+    'Porque o placeholder deveria ter o valor digitado.',
+    'Porque o PHP só recebe dados de campos <textarea>.',
+    'Porque o campo não tem o atributo name; sem name, o dado não é enviado.'
+  ],
+  correta:3,
+  dica:'O atributo name define o identificador do campo no PHP. Exemplo correto: <input type="text" name="email">.'
+},
+{
+  arquivo:'acesso.php',
+  enun:'Identifique o erro na condição do if:',
+  codigo:`<?php
+$idade = 20;
+if $idade >= 18 {
+    echo "Acesso liberado";
+}
+?>`,
+  opcoes:[
+    'O if deve ser escrito sempre em maiúsculas (IF).',
+    'A condição deve ficar entre parênteses: if ($idade >= 18).',
+    'As chaves { } devem ser removidas.',
+    'Faltou o bloco else { }.'
+  ],
+  correta:1,
+  dica:'Em PHP, a condição do if fica sempre entre parênteses: if (condição) { ... }.'
+},
+{
+  arquivo:'boletim.php',
+  enun:'O que está errado nesta estrutura de IF/ELSE?',
+  codigo:`<?php
+$nota = 5;
+if ($nota >= 7) {
+    echo "Aprovado";
+} else ($nota < 7) {
+    echo "Reprovado";
+}
+?>`,
+  opcoes:[
+    'O else não aceita condição entre parênteses; o correto é apenas else { }.',
+    'Deveria usar OTHERWISE em vez de else.',
+    'Faltou fechar o primeiro if com ponto e vírgula.',
+    'O código está correto e vai funcionar.'
+  ],
+  correta:0,
+  dica:'O else não recebe condição. Se quiser testar mais uma condição entre o if e o else, use elseif.'
+},
+{
+  arquivo:'media.php',
+  enun:'Qual opção preenche a lacuna corretamente?',
+  codigo:`<?php
+$media = 6;
+if ($media >= 7) {
+    echo "Aprovado";
+} __________ {
+    echo "Em recuperação";
+} else {
+    echo "Reprovado";
+}
+?>`,
+  opcoes:[
+    'if else ($media >= 5)',
+    'else then ($media >= 5)',
+    'elseif ($media >= 5)',
+    'condition ($media >= 5)'
+  ],
+  correta:2,
+  dica:'O elseif testa uma nova condição quando o if anterior foi falso: elseif ($media >= 5).'
+},
+{
+  arquivo:'validar.php',
+  enun:'Se o formulário for enviado com o campo em branco, qual problema pode acontecer?',
+  codigo:`<?php
+if ($_POST["email"] == "") {
+    echo "Preencha o e-mail!";
+}
+?>`,
+  opcoes:[
+    'Nenhum, o código está perfeito.',
+    'O $_POST é apagado automaticamente.',
+    'O campo vira um array.',
+    'O PHP pode gerar aviso de índice inexistente; o ideal é validar antes com isset() ou empty().'
+  ],
+  correta:3,
+  dica:'Antes de usar $_POST["email"], valide com isset($_POST["email"]) ou empty() para evitar o aviso "Undefined index".'
+},
+{
+  arquivo:'checagem.php',
+  enun:'O que a função empty() faz neste processamento?',
+  codigo:`<?php
+$nome = $_POST["nome"];
+if (empty($nome)) {
+    echo "O campo nome está vazio!";
+}
+?>`,
+  opcoes:[
+    'Apaga o campo do formulário.',
+    'Verifica se o campo está vazio e retorna true ou false.',
+    'Limpa o cache do navegador.',
+    'Esvazia todo o array $_POST.'
+  ],
+  correta:1,
+  dica:'empty() retorna true se a variável estiver vazia ("" , 0, null...) — ótimo para validar formulários.'
+},
+{
+  arquivo:'busca.php',
+  enun:'Com o action vazio (""), para onde os dados do formulário são enviados?',
+  codigo:`<form method="post" action="">
+    <input type="text" name="cidade">
+    <button type="submit">Buscar</button>
+</form>`,
+  opcoes:[
+    'Para a própria página onde o formulário está (ele mesmo).',
+    'Para lugar nenhum — o formulário deixa de funcionar.',
+    'Diretamente para o banco de dados.',
+    'Para um arquivo chamado action.php.'
+  ],
+  correta:0,
+  dica:'Com action vazio, o formulário envia para a própria URL, permitindo processar os dados na mesma página.'
+},
+{
+  arquivo:'url.php',
+  enun:'Ao enviar um formulário com method="get", onde ficam visíveis os dados digitados?',
+  codigo:`<form action="busca.php" method="get">
+    <input type="text" name="produto">
+    <button type="submit">Pesquisar</button>
+</form>`,
+  opcoes:[
+    'No corpo da requisição, sempre ocultos.',
+    'Em um arquivo de texto no servidor.',
+    'Na barra de endereços do navegador, no formato ?campo=valor.',
+    'No rodapé da página.'
+  ],
+  correta:2,
+  dica:'O GET coloca os dados na URL: busca.php?produto=teclado. Por isso não é indicado para senhas.'
+},
+{
+  arquivo:'comentario.php',
+  enun:'Exibir o campo diretamente assim é um risco de segurança. Qual é a boa prática?',
+  codigo:`<?php
+$comentario = $_POST["comentario"];
+echo $comentario;
+?>`,
+  opcoes:[
+    'Deixar assim; o PHP protege os dados automaticamente.',
+    'Usar htmlspecialchars($comentario) para escapar os caracteres HTML.',
+    'Usar echo duas vezes para proteger a saída.',
+    'Trocar echo por print_r.'
+  ],
+  correta:1,
+  dica:'htmlspecialchars() converte caracteres como < e > em entidades, evitando injeção de código (XSS).'
+},
+{
+  arquivo:'idade.php',
+  enun:'O que este IF está fazendo no processamento dos dados?',
+  codigo:`<?php
+$idade = $_POST["idade"];
+if (is_numeric($idade)) {
+    echo "Idade válida";
+} else {
+    echo "Digite apenas números";
+}
+?>`,
+  opcoes:[
+    'Converte $idade para texto.',
+    'Soma 1 à idade digitada.',
+    'Envia a idade por e-mail.',
+    'Verifica se $idade é um número e exibe a mensagem correspondente.'
+  ],
+  correta:3,
+  dica:'is_numeric() retorna true se o valor for numérico — útil para validar campos de formulário.'
+},
+{
+  arquivo:'estoque.html',
+  enun:'Ao clicar em "Salvar", nada é enviado ao servidor. Por quê?',
+  codigo:`<form action="salvar.php" method="post">
+    <input type="text" name="produto">
+    <button type="button">Salvar</button>
+</form>`,
+  opcoes:[
+    'O botão está com type="button"; para enviar o formulário ele deve ser type="submit".',
+    'O input deveria ser type="produto".',
+    'Faltou target="_blank" no formulário.',
+    'O formulário deve usar method="click".'
+  ],
+  correta:0,
+  dica:'Somente o botão type="submit" dispara o envio do formulário.'
+},
+{
+  arquivo:'cores.php',
+  enun:'O que será exibido na tela?',
+  codigo:`<?php
+$cor = "azul";
+if ($cor == "azul") {
+    echo "Cor do SENAC!";
+} else {
+    echo "Outra cor";
+}
+?>`,
+  opcoes:[
+    'Erro de sintaxe.',
+    'Outra cor.',
+    'Cor do SENAC!',
+    'Nada será exibido.'
+  ],
+  correta:2,
+  dica:'A comparação $cor == "azul" é verdadeira, então o primeiro bloco do if é executado.'
+},
+{
+  arquivo:'cadastro.php',
+  enun:'O usuário digitou 16 no campo idade do formulário. O que será exibido?',
+  codigo:`<?php
+$idade = $_POST["idade"];
+if ($idade >= 18) {
+    echo "Cadastro permitido";
+} else {
+    echo "Cadastro não permitido";
+}
+?>`,
+  opcoes:[
+    'Cadastro permitido.',
+    'Cadastro não permitido.',
+    'Erro, pois os dados do formulário chegam como texto.',
+    'Nada será exibido.'
+  ],
+  correta:1,
+  dica:'Os dados do formulário chegam como string, mas o PHP converte para a comparação numérica: 16 >= 18 é falso, então cai no else.'
+},
+{
+  arquivo:'classificacao.php',
+  enun:'A nota é 9, mas a mensagem exibida está errada. Por quê?',
+  codigo:`<?php
+$nota = 9;
+if ($nota >= 5) {
+    echo "Recuperação";
+} elseif ($nota >= 9) {
+    echo "Excelente";
+}
+?>`,
+  opcoes:[
+    'Porque elseif não existe em PHP.',
+    'Porque a nota 9 estoura o limite da variável.',
+    'Porque o echo não pode aparecer duas vezes.',
+    'Pela ordem das condições: $nota >= 5 já é verdadeiro e só o primeiro bloco é executado.'
+  ],
+  correta:3,
+  dica:'Na cadeia if/elseif, a primeira condição verdadeira é executada e as demais são ignoradas. Teste as condições mais específicas primeiro.'
+},
+{
+  arquivo:'turno.html',
+  enun:'Se o usuário escolher "Tarde", qual valor $_POST["turno"] receberá no PHP?',
+  codigo:`<form action="matricula.php" method="post">
+    <select name="turno">
+        <option value="M">Manhã</option>
+        <option value="T">Tarde</option>
+    </select>
+    <button type="submit">Matricular</button>
+</form>`,
+  opcoes:[
+    'A palavra "Tarde", que é o texto exibido.',
+    'A letra "T", que é o value da opção.',
+    'O número 2, que é a posição da opção.',
+    'Nada; o select não é enviado ao PHP.'
+  ],
+  correta:1,
+  dica:'O que é enviado para o PHP é o atributo value do option, e não o texto mostrado na tela.'
+},
+{
+  arquivo:'login.php',
+  enun:'O que o operador && (E) faz nesta condição?',
+  codigo:`<?php
+$login = $_POST["login"];
+$senha = $_POST["senha"];
+if ($login == "admin" && $senha == "1234") {
+    echo "Login realizado!";
+} else {
+    echo "Login ou senha inválidos";
+}
+?>`,
+  opcoes:[
+    'Exige que as duas comparações sejam verdadeiras para liberar o login.',
+    'Aceita a condição se apenas uma comparação for verdadeira.',
+    'Inverte o resultado da condição.',
+    'Compara somente o login, ignorando a senha.'
+  ],
+  correta:0,
+  dica:'&& (E): todas as condições precisam ser verdadeiras. Já o || (OU) exige apenas uma.'
+},
+{
+  arquivo:'inscricao.html',
+  enun:'O que acontece se o usuário deixar o e-mail em branco e clicar em "Cadastrar"?',
+  codigo:`<form action="cadastro.php" method="post">
+    <input type="text" name="nome">
+    <input type="email" name="email" required>
+    <button type="submit">Cadastrar</button>
+</form>`,
+  opcoes:[
+    'O formulário é enviado com o e-mail vazio.',
+    'O PHP preenche o e-mail automaticamente.',
+    'O navegador bloqueia o envio e pede para preencher o campo.',
+    'O formulário é removido da página.'
+  ],
+  correta:2,
+  dica:'O required é uma validação do HTML que impede o envio sem o campo. Mesmo assim, valide também no PHP (isset/empty).'
+},
+{
+  arquivo:'envio.php',
+  enun:'Qual comando preenche a lacuna, verificando se o botão de envio (name="enviar") foi clicado?',
+  codigo:`<form method="post">
+    <input type="text" name="mensagem">
+    <button type="submit" name="enviar">Enviar</button>
+</form>
+
+<?php
+if (____________) {
+    echo "Formulário recebido!";
+}
+?>`,
+  opcoes:[
+    'click($_POST["enviar"])',
+    '$_POST->enviar()',
+    'submit.check("enviar")',
+    'isset($_POST["enviar"])'
+  ],
+  correta:3,
+  dica:'isset() verifica se a variável/índice existe. Como o botão tem name="enviar", ao ser clicado ele aparece em $_POST["enviar"].'
+}
 ];
 
-let indiceAtual = 0;
-let acertos = 0;
-let erros = 0;
-let nomeAluno = "";
-let horaInicio = "";
+/* ==================== ESTADO E ELEMENTOS ==================== */
+const estado = { nome:'', indice:0, acertos:0, erros:0, respostas:[], respondida:false, horaInicio:null, horaFim:null, timerAuto:null };
+const $ = s => document.querySelector(s);
+const contadorEl=$('#contador'), progFill=$('#progFill'), progPct=$('#progPct'),
+      qBadge=$('#qBadge'), qEnun=$('#qEnun'), qArquivo=$('#qArquivo'), qCodigo=$('#qCodigo'),
+      altsEl=$('#qAlts'), painel=$('#painelQuestao'), fb=$('#feedback'),
+      fbTitulo=$('#fbTitulo'), fbTexto=$('#fbTexto'), btnProx=$('#btnProx'), autoBar=$('#autoBar');
 
-function iniciar() {
-  nomeAluno = document.getElementById('nomeAluno').value.trim();
-  if (!nomeAluno) {
-    alert("⚠️ Por favor, digite seu nome antes de iniciar!");
-    return;
-  }
-  const agora = new Date();
-  horaInicio = agora.toLocaleTimeString('pt-BR');
-  document.getElementById('telaInicial').classList.add('hidden');
-  document.getElementById('telaQuestao').classList.remove('hidden');
-  document.getElementById('infoAluno').innerHTML = 
-    `👤 Aluno: <strong>${nomeAluno}</strong> | 📅 29/07/2026 | 🕐 Início: <strong>${horaInicio}</strong>`;
-  mostrarQuestao();
+/* ==================== RELÓGIO ==================== */
+const fmtHora = d => d.toLocaleTimeString('pt-BR');
+function tictac(){
+  const h = fmtHora(new Date());
+  document.querySelectorAll('.rel').forEach(el => el.textContent = h);
 }
+tictac(); setInterval(tictac, 1000);
 
-function mostrarQuestao() {
-  const q = questoes[indiceAtual];
-  const pct = ((indiceAtual)/25)*100;
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressBar').textContent = `${indiceAtual}/25`;
-  
-  let html = `
-    <div class="teoria">${q.teoria}</div>
-    <div class="card">
-      <div class="pergunta">Questão ${indiceAtual+1}/25: ${q.pergunta}</div>
-      <div class="opcoes" id="opcoes">
-  `;
-  q.opcoes.forEach((op, i) => {
-    html += `<div class="opcao" onclick="responder(${i})">${String.fromCharCode(65+i)}) ${op}</div>`;
+/* ==================== SINTAXE (highlight PHP + HTML) ==================== */
+const RE = /(&lt;\?php|\?&gt;)|(&lt;\/?[\w-]+)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(\$[A-Za-z_]\w*)|\b(echo|print|if|else|elseif|for|foreach|while|function|return|array|isset|empty|is_numeric|htmlspecialchars|required|true|false|null)\b|(\d+)|(=&gt;|&lt;=?|&gt;=?|[=!]=|&&|\|\||=)/g;
+function destacar(l){
+  l = l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return l.replace(RE,(m,tag,htm,str,vr,kw,num)=>{
+    const cls = (tag||htm)?'t-tag': str?'t-str': vr?'t-var': kw?'t-kw': num?'t-num':'t-op';
+    return `<span class="${cls}">${m}</span>`;
   });
-  html += `</div>
-    <div class="feedback" id="feedback"></div>
-    <button class="btn hidden" id="btnProx" onclick="proxima()">Próxima Questão ➡️</button>
-  </div>`;
-  document.getElementById('conteudoQuestao').innerHTML = html;
+}
+function montarCodigo(codigo){
+  return codigo.split('\n').map((l,i)=>
+    `<div class="lc"><span class="lc-n">${i+1}</span><span class="lc-t">${destacar(l)||'&nbsp;'}</span></div>`
+  ).join('');
 }
 
-function responder(escolha) {
-  const q = questoes[indiceAtual];
-  const opcoes = document.querySelectorAll('.opcao');
-  const feedback = document.getElementById('feedback');
-  const btnProx = document.getElementById('btnProx');
-  
-  opcoes.forEach(op => op.style.pointerEvents = 'none');
-  opcoes[q.correta].classList.add('correta');
-  
-  if (escolha === q.correta) {
-    acertos++;
-    feedback.className = 'feedback acerto';
-    feedback.innerHTML = `✅ <strong>CORRETO!</strong> Excelente resposta!`;
-    feedback.style.display = 'block';
-  } else {
-    erros++;
-    opcoes[escolha].classList.add('errada');
-    feedback.className = 'feedback erro';
-    feedback.innerHTML = `❌ <strong>Resposta incorreta!</strong> A alternativa correta era: <br><strong>${String.fromCharCode(65+q.correta)}) ${q.opcoes[q.correta]}</strong><br><em>Analise a resposta certa e siga para a próxima questão.</em>`;
-    feedback.style.display = 'block';
+/* ==================== FLUXO ==================== */
+function trocarTela(id){
+  document.querySelectorAll('.tela').forEach(t=>t.classList.remove('ativa'));
+  document.getElementById(id).classList.add('ativa');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function atualizarChips(){
+  $('#chipAcertos').textContent = estado.acertos;
+  $('#chipErros').textContent = estado.erros;
+}
+function renderQuestao(){
+  const i = estado.indice, q = QUESTOES[i];
+  contadorEl.innerHTML = `QUESTÃO <b>${String(i+1).padStart(2,'0')}</b> / ${QUESTOES.length}`;
+  progFill.style.width = (i/QUESTOES.length*100)+'%';
+  progPct.textContent = Math.round(i/QUESTOES.length*100)+'%';
+  qBadge.textContent = 'Q'+String(i+1).padStart(2,'0');
+  qEnun.textContent = q.enun;
+  qArquivo.textContent = q.arquivo;
+  qCodigo.innerHTML = montarCodigo(q.codigo);
+  altsEl.classList.remove('respondido');
+  altsEl.innerHTML='';
+  q.opcoes.forEach((txt,k)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='alt';
+    b.innerHTML=`<span class="letra">${LETRAS[k]}</span><span class="alt-txt"></span>`;
+    b.querySelector('.alt-txt').textContent=txt;
+    b.onclick=()=>responder(k,b);
+    altsEl.appendChild(b);
+  });
+  fb.className='feedback';
+  painel.classList.remove('entrar-anim'); void painel.offsetWidth; painel.classList.add('entrar-anim');
+}
+function responder(k,btn){
+  if(estado.respondida) return;
+  estado.respondida=true;
+  const q=QUESTOES[estado.indice], alts=[...altsEl.children];
+  altsEl.classList.add('respondido');
+  alts.forEach(a=>a.classList.add('apagada'));
+  btn.classList.remove('apagada');
+  const certa=alts[q.correta]; certa.classList.remove('apagada');
+  if(k===q.correta){
+    estado.acertos++; btn.classList.add('correta'); mostrarFeedback(true,q);
+  }else{
+    estado.erros++; btn.classList.add('errada'); certa.classList.add('correta'); mostrarFeedback(false,q);
   }
-  
-  btnProx.classList.remove('hidden');
-  if (indiceAtual === 24) btnProx.textContent = "🏁 Ver Resultado Final";
+  estado.respostas.push(k);
+  atualizarChips();
 }
+function mostrarFeedback(ok,q){
+  fb.className='feedback mostrar '+(ok?'ok':'erro');
+  fbTitulo.textContent = ok ? '✔ Resposta correta! Muito bem.' : '✘ Resposta incorreta — veja onde errou:';
+  fbTexto.textContent = (ok ? '' : `Alternativa correta: ${LETRAS[q.correta]}. `) + q.dica;
+  btnProx.textContent = estado.indice===QUESTOES.length-1 ? 'Ver resultado →' : 'Próxima questão →';
+  const ms = ok ? 12600 : 10500;
+  autoBar.style.animation='none'; void autoBar.offsetWidth;
+  autoBar.style.animation=`esvaziar ${ms}ms linear forwards`;
+  clearTimeout(estado.timerAuto);
+  estado.timerAuto=setTimeout(prox,ms);
+  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function prox(){
+  clearTimeout(estado.timerAuto);
+  estado.respondida=false;
+  estado.indice++;
+  if(estado.indice>=QUESTOES.length) finalizar();
+  else renderQuestao();
+}
+btnProx.onclick=prox;
 
-function proxima() {
-  indiceAtual++;
-  if (indiceAtual >= 25) {
-    mostrarResultado();
-  } else {
-    mostrarQuestao();
+/* ==================== RESULTADO ==================== */
+function contar(el,alvo,dec=0,sufixo=''){
+  const ini=performance.now(), dur=1000;
+  function passo(t){
+    const p=Math.min(1,(t-ini)/dur), v=alvo*p;
+    el.textContent=(dec?v.toFixed(dec).replace('.',','):Math.round(v))+sufixo;
+    if(p<1) requestAnimationFrame(passo);
   }
+  requestAnimationFrame(passo);
+}
+function finalizar(){
+  estado.horaFim=new Date();
+  const total=QUESTOES.length, ac=estado.acertos, er=estado.erros;
+  const nota=ac/total*10;
+  progFill.style.width='100%'; progPct.textContent='100%';
+  $('#resNome').textContent=estado.nome;
+  $('#resHoraIni').textContent=fmtHora(estado.horaInicio);
+  $('#resHoraFim').textContent=fmtHora(estado.horaFim);
+  const msg = nota>=9 ? 'excelente! Você dominou formulários e condições em PHP. 🏆'
+            : nota>=7 ? 'muito bom! Você está no caminho certo — siga praticando.'
+            : nota>=5 ? 'bom começo! Revise os pontos destacados no gabarito abaixo.'
+            : 'não desanime: revise o gabarito comentado e tente novamente.';
+  $('#resMsg').textContent=`${estado.nome.charAt(0)+estado.nome.slice(1).toLowerCase()}, ${msg}`;
+  contar($('#resAcertos'),ac);
+  contar($('#resErros'),er);
+  contar($('#notaValor'),nota,1);
+  contar($('#resPct'),nota*10,0,'%');
+  const anel=$('#anelNota'), C=2*Math.PI*78;
+  anel.style.strokeDasharray=C; anel.style.strokeDashoffset=C;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ anel.style.strokeDashoffset=C*(1-nota/10); }));
+  $('#listaRevisao').innerHTML=QUESTOES.map((q,i)=>{
+    const resp=estado.respostas[i], ok=resp===q.correta;
+    const linha = ok
+      ? `Você marcou a alternativa ${LETRAS[resp]} · resposta correta.`
+      : `Você marcou ${LETRAS[resp]} · a correta é a ${LETRAS[q.correta]} — ${q.dica}`;
+    return `<div class="rev-item ${ok?'ok':'er'}" style="--d:${i*70}ms">
+      <div class="rev-topo"><span class="rev-q">QUESTÃO ${String(i+1).padStart(2,'0')} · ${q.arquivo}</span>
+      <span class="rev-st">${ok?'✔ ACERTOU':'✘ ERROU'}</span></div>
+      <p class="rev-enun">${q.enun}</p>
+      <p class="rev-resp">${linha}</p>
+    </div>`;
+  }).join('');
+  salvarRegistro(nota);
+  trocarTela('tela-resultado');
+}
+function salvarRegistro(nota){
+  try{
+    const reg=JSON.parse(localStorage.getItem(CHAVE)||'[]');
+    reg.push({nome:estado.nome,data:DATA_AULA,hora:fmtHora(estado.horaFim),
+      nota:nota.toFixed(1).replace('.',','),acertos:estado.acertos,erros:estado.erros});
+    localStorage.setItem(CHAVE,JSON.stringify(reg.slice(-8)));
+  }catch(e){}
+}
+function renderRegistros(){
+  let reg=[]; try{reg=JSON.parse(localStorage.getItem(CHAVE)||'[]')}catch(e){}
+  if(!reg.length) return;
+  $('#registros').hidden=false;
+  $('#listaRegistros').innerHTML=reg.slice(-5).reverse().map(r=>
+    `<div class="reg-item"><b>${r.nome}</b> — nota ${r.nota} (${r.acertos}✔ / ${r.erros}✘) · ${r.data} ${r.hora}</div>`
+  ).join('');
 }
 
-function mostrarResultado() {
-  document.getElementById('telaQuestao').classList.add('hidden');
-  const tela = document.getElementById('telaResultado');
-  tela.classList.remove('hidden');
-  const nota = ((acertos/25)*10).toFixed(1);
-  const horaFim = new Date().toLocaleTimeString('pt-BR');
-  let mensagem = "";
-  if (nota >= 9) mensagem = "🏆 EXCELENTE! Você dominou o conteúdo!";
-  else if (nota >= 7) mensagem = "👏 MUITO BOM! Ótimo desempenho!";
-  else if (nota >= 5) mensagem = "📚 BOM! Continue estudando para melhorar.";
-  else mensagem = "💪 Não desanime! Revise o conteúdo e tente novamente.";
-  
-  tela.innerHTML = `
-    <div class="card resultado">
-      <h2 style="color:#FFD700;">🎓 RESULTADO FINAL</h2>
-      <div class="info">
-        👤 Aluno: <strong>${nomeAluno}</strong><br>
-        📅 Data: <strong>29/07/2026</strong> | 🕐 Início: <strong>${horaInicio}</strong> | 🕐 Término: <strong>${horaFim}</strong>
-      </div>
-      <div class="nota">${nota}</div>
-      <p style="font-size:1.2em; color:#00BFFF;">${mensagem}</p>
-      <div class="stats">
-        <div class="stat-box">
-          <h3>✅ ACERTOS</h3>
-          <p>${acertos}</p>
-        </div>
-        <div class="stat-box">
-          <h3>❌ ERROS</h3>
-          <p>${erros}</p>
-        </div>
-        <div class="stat-box">
-          <h3>📝 TOTAL</h3>
-          <p>25</p>
-        </div>
-        <div class="stat-box">
-          <h3>📊 NOTA</h3>
-          <p>${nota}</p>
-        </div>
-      </div>
-     
-    </div>
-  `;
-}
+/* ==================== INICIAR ==================== */
+$('#formInicio').addEventListener('submit',e=>{
+  e.preventDefault();
+  const inp=$('#inpNome'), v=inp.value.trim();
+  if(!v){ inp.classList.add('tremer'); inp.focus(); setTimeout(()=>inp.classList.remove('tremer'),500); return; }
+  estado.nome=v.toUpperCase();
+  estado.horaInicio=new Date();
+  estado.indice=0; estado.acertos=0; estado.erros=0; estado.respostas=[]; estado.respondida=false;
+  atualizarChips();
+  trocarTela('tela-quiz');
+  renderQuestao();
+});
+
+/* ==================== TECLADO ==================== */
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('tela-quiz').classList.contains('ativa')) return;
+  if(fb.classList.contains('mostrar')){ if(e.key==='Enter'){ e.preventDefault(); prox(); } return; }
+  const mapa={'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+  const k=mapa[e.key.toLowerCase()];
+  if(k!==undefined && altsEl.children[k]) altsEl.children[k].click();
+});
+
+renderRegistros();
 </script>
 </body>
 </html>
